@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import WorkCover from "components/WorkCover.vue";
 import {api} from "boot/axios";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import NotificationMixins from "src/mixins/NotificationMixins";
 
 defineOptions({
@@ -17,7 +17,7 @@ interface RecentComicDTO {
 const recentWorks = ref<Array<RecentComicDTO>>([]);
 
 function fetchRecent() {
-  api.get('/recent').then((response) => {
+  api.get('/work/recent').then((response) => {
     recentWorks.value = response.data;
     console.log(recentWorks.value)
   }).catch((error) => {
@@ -26,6 +26,10 @@ function fetchRecent() {
 }
 
 fetchRecent();
+
+const apiUrl = computed(() => {
+  return api.getUri();
+})
 </script>
 
 <template>
@@ -43,7 +47,7 @@ fetchRecent();
                   <q-card>
                     <router-link to="">
                       <work-cover :id="item.id" :nsfw="true" :release="item.release"
-                                  :url="item.cover"/>
+                                  :url="`${apiUrl}/attachment/${item.cover}`"/>
                     </router-link>
                   </q-card>
                 </div>

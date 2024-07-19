@@ -9,20 +9,26 @@ export interface Tag {
   name: string;
 }
 
+export interface Circle {
+  id: number;
+  name: string;
+}
+
 export interface OtherSite {
   id: string;
   name: string;
 
 }
 
-export interface Comic {
+export interface Work {
   id: number;
   title: string;
   description: string;
   authors: Array<Author>;
   tags: Array<Tag>;
-  sites: Array<OtherSite>;
+  circle: Circle;
   release: string;
+  cover: string;
 }
 
 export interface CoverInfo {

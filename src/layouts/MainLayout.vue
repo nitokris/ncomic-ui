@@ -44,6 +44,30 @@ const menus = [
   {
     url: '/recent',
     title: 'Recent',
+  },
+  {
+    url: '/addWork',
+    title: 'Add',
+  },
+  {
+    url: '/tag',
+    title: 'Label',
+  },
+  {
+    url: '/works',
+    title: 'Works',
+  },
+  {
+    url: '/addCircle',
+    title: 'Add Circle',
+  },
+  {
+    url: '/addAuthor',
+    title: 'Add Author',
+  },
+  {
+    url: '/addTag',
+    title: 'Add Tag',
   }
 ]
 
