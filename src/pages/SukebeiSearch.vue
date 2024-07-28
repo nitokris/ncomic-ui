@@ -3,6 +3,7 @@ import {ref} from 'vue';
 import {api} from "boot/axios";
 import {copyToClipboard} from "quasar";
 import NotificationMixins from "src/mixins/NotificationMixins";
+import {json} from "express";
 
 defineOptions({
   name: 'SukebeiSearch',
@@ -27,12 +28,19 @@ const rows = ref([]);
 
 const columns = [
   {
+    name: 'type',
+    required: true,
+    label: '类型',
+    align: 'left',
+    field: (row: any) => row.type,
+    require: false
+  },
+  {
     name: 'title',
     required: true,
     label: '标题',
     align: 'left',
     field: (row: any) => row.title,
-    format: (val: any, row: Object) => val.replaceAll(keyword, `<span style="color: red;">${keyword}</span>`),
     require: false
   }, {
     name: 'fileSize',
@@ -102,6 +110,27 @@ const loading = ref(true);
           <template v-slot:top>
             <q-btn @click="handleCopy" color="primary" :disable="loading && !selected.length" label="拷贝"/>
           </template>
+
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td auto-width>
+                <q-checkbox v-model="props.selected"/>
+              </q-td>
+              <q-td style="width: 150px;">
+                <q-img :src="props.row.type"/>
+              </q-td>
+              <q-td style="max-width: 300px;overflow: hidden">
+                <span :title="props.row.title">{{ props.row.title }}</span>
+              </q-td>
+              <q-td>
+                <span>{{ props.row.fileSize }}</span>
+              </q-td>
+              <q-td>
+                <span>{{ props.row.date }}</span>
+              </q-td>
+            </q-tr>
+          </template>
+
         </q-table>
       </q-card-section>
     </q-card>
