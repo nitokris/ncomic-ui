@@ -12,6 +12,7 @@ const routes: RouteRecordRaw[] = [
       {path: 'addCircle', props: {restrict: 'group'}, component: () => import('pages/AddLabel.vue')},
       {path: 'addAuthor', props: {restrict: 'author'}, component: () => import('pages/AddLabel.vue')},
       {path: 'addTag', props: {restrict: 'tag'}, component: () => import('pages/AddLabel.vue')},
+      {path: 'sukebi', component: () => import('pages/SukebeiSearch.vue')},
     ]
   },
 

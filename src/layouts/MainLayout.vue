@@ -68,6 +68,10 @@ const menus = [
   {
     url: '/addTag',
     title: 'Add Tag',
+  },
+  {
+    url: '/sukebi',
+    title: 'Sukebei',
   }
 ]
 
