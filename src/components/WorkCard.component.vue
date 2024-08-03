@@ -1,34 +1,35 @@
 <script setup lang="ts">
 
 import WorkCover from "components/WorkCover.component.vue";
-import {ref, watch} from "vue";
 import {Work} from "src/models";
-import {apiClient} from "src/api-client";
+
 
 defineOptions({
   name: "WorkCard",
 })
 
-const props = defineProps({
-  workid: String,
-  mode: String,
-});
+const props = defineProps<{
+  work: Work,
+  mode: String
+}>();
 
-const metadata = ref<Work>();
+// const metadata = ref<Work>();
+//
+// async function requestMetadata() {
+//   if (props.workid) {
+//     const work = await apiClient.works.fetchWork(props.workid)
+//     metadata.value = work
+//   }
+// }
+//
+// watch(() => props.workid, (oldWorkId, newWorkId) => {
+//   requestMetadata();
+// });
+//
+// // 创建前调用
+// requestMetadata();
 
-async function requestMetadata() {
-  if (props.workid) {
-    const work = await apiClient.works.fetchWork(props.workid)
-    metadata.value = work
-  }
-}
-
-watch(() => props.workid, (oldWorkId, newWorkId) => {
-  requestMetadata();
-});
-
-// 创建前调用
-requestMetadata();
+const metadata = props.work
 
 </script>
 
@@ -36,7 +37,7 @@ requestMetadata();
   <q-card>
     <router-link to="/">
       <!--封面，原则上点击可以跳转到详细页面，但暂时不做-->
-      <work-cover :id="metadata?.id" :nsfw="true"
+      <work-cover :src="metadata?.cover" :nsfw="true"
                   :release="metadata?.release"/>
       <!--标题-->
       <div class="q-mx-sm text-h6 text-weight-regular ellipsis-2-lines">

@@ -39,12 +39,13 @@ function requestWorksQueue() {
     page: pagination.value.currentPage + 1 || 1
   }
   apiClient.works.fetchWorks(params).then((response) => {
-    const fromNetWorks = response.data.works;
+    const fromNetWorks = response.works;
     works.value = (params.page === 1) ? fromNetWorks.concat() : works.value.concat(fromNetWorks)
     pagination.value = response.data.pagination
     if (works.value.length >= pagination.value.totalCount) {
       stopLoad.value = true;
     }
+    NotificationMixins.showSuccNotif('加载成功')
   }).catch(error => {
     if (error.reponse) {
       // 请求已发出，但服务端向不是200
@@ -77,8 +78,7 @@ const currentPage = ref(1);
     </div>
     <div class="col q-px-md row q-col-gutter-x-md q-col-gutter-y-lg">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2" v-for="work in works" :key="work.id">
-
-        <WorkCard :workid="work.id" class="fit"/>
+        <work-card :work="work" :mode="''"/>
       </div>
     </div>
     <div class="q-pa-lg flex flex-center">

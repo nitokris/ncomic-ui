@@ -7,4 +7,5 @@ export interface Work {
   circle: Circle
   tags: Set<Label>
   release: string
+  cover: string
 }

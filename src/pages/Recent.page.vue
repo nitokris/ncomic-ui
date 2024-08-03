@@ -46,8 +46,7 @@ const apiUrl = computed(() => {
                 <div class="col-xs-12 col-sm-6 col-md-4">
                   <q-card>
                     <router-link to="">
-                      <work-cover :id="item.id" :nsfw="true" :release="item.release"
-                                  :url="`${apiUrl}/attachment/${item.cover}`"/>
+                      <work-cover :file="item.cover" :nsfw="true" :release="item.release"/>
                     </router-link>
                   </q-card>
                 </div>

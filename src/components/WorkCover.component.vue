@@ -2,6 +2,7 @@
 
 import {useQuasar} from "quasar";
 import {computed, ref} from "vue";
+import {api} from "boot/axios";
 
 
 const prop = defineProps({
@@ -10,8 +11,8 @@ const prop = defineProps({
     required: false,
     default: false
   },
-  id: {
-    type: Number,
+  src: {
+    type: String,
     required: false,
     default: 0
   },
@@ -42,7 +43,7 @@ const imgClass = computed(() => {
 })
 
 const coverUrl = computed(() => {
-  return `/api/attachment/${prop.id}`;
+  return `${api.getUri()}/attachment/${prop.src}`;
 })
 
 </script>
@@ -55,9 +56,9 @@ const coverUrl = computed(() => {
          :ratio="4/3"
   >
     <div class="absolute-top-left transparent" style="padding: 0;">
-      <q-chip dense square color="brown" text-color="white" class="q-ma-sm">
-        23333
-      </q-chip>
+<!--      <q-chip dense square color="brown" text-color="white" class="q-ma-sm">-->
+<!--        23333-->
+<!--      </q-chip>-->
       <!--      <template v-for="(item,index) in prop.otherSites" :key="index">-->
       <!--        <q-chip dense square color="brown" text-color="white" class="q-ma-sm">-->
       <!--          {{ item.name }}-->
