@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
-// import WorkListItem from "components/WorkListItem.vue";
-import WorkCard from "components/WorkCard.vue";
-import {api} from "boot/axios";
+import WorkCard from "components/WorkCard.component.vue";
 import NotificationMixins from "src/mixins/NotificationMixins";
+import {apiClient} from "src/api-client";
+import {Work} from "src/models";
 
 
 defineProps({
@@ -16,7 +16,7 @@ defineProps({
 const keyword = ref('');
 const listView = ref(false);
 const stopLoad = ref(false);
-const works = ref([]);
+const works = ref<Array<Work>>([]);
 const pageTitle = ref('所有漫画');
 
 const pagination = ref({});
@@ -38,26 +38,25 @@ function requestWorksQueue() {
     sort: sortOption.value.sort,
     page: pagination.value.currentPage + 1 || 1
   }
-  return api.get('/work/list', {params})
-    .then((response) => {
-      const fromNetWorks = response.data.works;
-      works.value = (params.page === 1) ? fromNetWorks.concat() : works.value.concat(fromNetWorks)
-      pagination.value = response.data.pagination
-      if (works.value.length >= pagination.value.totalCount) {
-        stopLoad.value = true;
-      }
-    }).catch(error => {
-      if (error.reponse) {
-        // 请求已发出，但服务端向不是200
-        if (error.reponse.status !== 401) {
-          // 提示错误信息
-          NotificationMixins.showErrNotif(error.message)
-        } else {
-
-        }
-      }
+  apiClient.works.fetchWorks(params).then((response) => {
+    const fromNetWorks = response.data.works;
+    works.value = (params.page === 1) ? fromNetWorks.concat() : works.value.concat(fromNetWorks)
+    pagination.value = response.data.pagination
+    if (works.value.length >= pagination.value.totalCount) {
       stopLoad.value = true;
-    })
+    }
+  }).catch(error => {
+    if (error.reponse) {
+      // 请求已发出，但服务端向不是200
+      if (error.reponse.status !== 401) {
+        // 提示错误信息
+        NotificationMixins.showErrNotif(error.message)
+      } else {
+
+      }
+    }
+    stopLoad.value = true;
+  })
 }
 
 requestWorksQueue();

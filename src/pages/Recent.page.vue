@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import WorkCover from "components/WorkCover.vue";
+import WorkCover from "components/WorkCover.component.vue";
 import {api} from "boot/axios";
 import {computed, ref} from "vue";
 import NotificationMixins from "src/mixins/NotificationMixins";

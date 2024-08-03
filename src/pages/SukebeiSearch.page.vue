@@ -3,7 +3,6 @@ import {ref} from 'vue';
 import {api} from "boot/axios";
 import {copyToClipboard} from "quasar";
 import NotificationMixins from "src/mixins/NotificationMixins";
-import {json} from "express";
 
 defineOptions({
   name: 'SukebeiSearch',
@@ -12,9 +11,10 @@ defineOptions({
 const keyword = ref('');
 
 function searchHandle() {
+  // tableRef.value.requestServerInteraction();
   api.get(`sukebei/${keyword.value}`)
     .then(resp => {
-      rows.value = [].concat(resp.data);
+      rows.value = [].concat(resp.data.manga);
       selected.value = [];
       NotificationMixins.showSuccNotif("搜索完成");
     }).catch(err => {
@@ -73,14 +73,34 @@ function handleCopy() {
   })
 }
 
-const initialPagination = {
-  descending: false,
-  page: 1,
-  rowsPerPage: 50
-}
-
+const initialPagination = ref({
+    descending: false,
+    page: 1,
+    rowsPerPage: 50,
+    rowsNumber: 0
+  }
+);
 
 const loading = ref(true);
+
+const tableRef = ref();
+
+function onRequest(props: any) {
+  const {page} = props.pagination;
+  api.get(`sukebei/${keyword.value}/${initialPagination.value.page}`)
+    .then(resp => {
+      rows.value = [].concat(resp.data.manga);
+      selected.value = [];
+      initialPagination.value.page = page;
+      initialPagination.value.rowsNumber = resp.data.total;
+      NotificationMixins.showSuccNotif("搜索完成");
+    }).catch(err => {
+    NotificationMixins.showErrNotif(err.message);
+  }).finally(() => {
+    loading.value = false;
+  })
+}
+
 </script>
 
 <template>
@@ -101,6 +121,7 @@ const loading = ref(true);
           flat bordered
           title="搜索结果"
           :rows="rows"
+          ref="tableRef"
           :columns="columns"
           row-key="magnet"
           selection="multiple"

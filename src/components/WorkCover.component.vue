@@ -1,14 +1,27 @@
 <script setup lang="ts">
 
-import {CoverInfo} from "components/models";
 import {useQuasar} from "quasar";
 import {computed, ref} from "vue";
 
-interface CoverProps extends CoverInfo {
-  nsfw: boolean;
-}
 
-const prop = defineProps<CoverProps>()
+const prop = defineProps({
+  nsfw: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  id: {
+    type: Number,
+    required: false,
+    default: 0
+  },
+
+  release: {
+    type: String,
+    required: false,
+    default: ''
+  }
+})
 
 const blurFlag = ref(true);
 
@@ -29,8 +42,7 @@ const imgClass = computed(() => {
 })
 
 const coverUrl = computed(() => {
-  // return prop.id ? `/api/attachment/${prop.id}` : prop.url;
-  return prop.url;
+  return `/api/attachment/${prop.id}`;
 })
 
 </script>
