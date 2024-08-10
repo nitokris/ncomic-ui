@@ -11,17 +11,7 @@ defineOptions({
 const keyword = ref('');
 
 function searchHandle() {
-  // tableRef.value.requestServerInteraction();
-  api.get(`sukebei/${keyword.value}`)
-    .then(resp => {
-      rows.value = [].concat(resp.data.manga);
-      selected.value = [];
-      NotificationMixins.showSuccNotif("搜索完成");
-    }).catch(err => {
-    NotificationMixins.showErrNotif(err.message);
-  }).finally(() => {
-    loading.value = false;
-  })
+  tableRef.value.requestServerInteraction()
 }
 
 const rows = ref([]);
@@ -74,25 +64,36 @@ function handleCopy() {
 }
 
 const initialPagination = ref({
+    sortBy: 'desc',
     descending: false,
     page: 1,
-    rowsPerPage: 50,
-    rowsNumber: 0
+    rowsPerPage: 75,
+    rowsNumber: 150
   }
 );
 
-const loading = ref(true);
+const loading = ref(false);
 
 const tableRef = ref();
 
-function onRequest(props: any) {
-  const {page} = props.pagination;
-  api.get(`sukebei/${keyword.value}/${initialPagination.value.page}`)
+
+function onRequest(requestProp: any) {
+  if (!(keyword.value.trim())) {
+    return;
+  }
+  loading.value = true
+  const {page, rowsPerPage, sortBy, descending} = requestProp.pagination
+  // tableRef.value.requestServerInteraction();
+  api.get(`sukebei/${keyword.value}/${requestProp.pagination.page}`)
     .then(resp => {
-      rows.value = [].concat(resp.data.manga);
-      selected.value = [];
-      initialPagination.value.page = page;
+      console.log(resp.data);
       initialPagination.value.rowsNumber = resp.data.total;
+      rows.value.splice(0, rows.value.length, ...resp.data.manga)
+      initialPagination.value.page = page
+      initialPagination.value.sortBy = sortBy
+      initialPagination.value.descending = descending
+      initialPagination.value.rowsPerPage = 75
+
       NotificationMixins.showSuccNotif("搜索完成");
     }).catch(err => {
     NotificationMixins.showErrNotif(err.message);
@@ -125,8 +126,11 @@ function onRequest(props: any) {
           :columns="columns"
           row-key="magnet"
           selection="multiple"
+          rows-key="magnet"
           v-model:selected="selected"
-          :pagination="initialPagination"
+          v-model:pagination="initialPagination"
+          @request="onRequest"
+          :loading="loading"
         >
           <template v-slot:top>
             <q-btn @click="handleCopy" color="primary" :disable="loading && !selected.length" label="拷贝"/>
