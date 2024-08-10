@@ -23,13 +23,15 @@ export class WorksApiClientModel implements WorksApiClientInterface {
     return useHttpClient().request<Work[], any>(param)
   }
 
-  fetchWork(id: string): Promise<Work> {
-    const param: HttpRequestParamsInterface<String> = {
+  fetchWork(id: number): Promise<Work> {
+    const param: HttpRequestParamsInterface<any> = {
       endpoint: this.endpoints.fetchWork,
       requestType: HttpRequestType.get,
       requiresToken: false,
-      payload: id
+      payload: {
+        id
+      }
     }
-    return useHttpClient().request<Work, String>(param)
+    return useHttpClient().request<Work, any>(param)
   }
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import WorkCover from "components/WorkCover.component.vue";
+import WorkCover from "src/components/WorkCover.component.vue";
 import {Work} from "src/models";
 
 
@@ -13,29 +13,13 @@ const props = defineProps<{
   mode: String
 }>();
 
-// const metadata = ref<Work>();
-//
-// async function requestMetadata() {
-//   if (props.workid) {
-//     const work = await apiClient.works.fetchWork(props.workid)
-//     metadata.value = work
-//   }
-// }
-//
-// watch(() => props.workid, (oldWorkId, newWorkId) => {
-//   requestMetadata();
-// });
-//
-// // 创建前调用
-// requestMetadata();
-
 const metadata = props.work
 
 </script>
 
 <template>
   <q-card>
-    <router-link to="/">
+    <router-link :to="`/work/${metadata?.id}`">
       <!--封面，原则上点击可以跳转到详细页面，但暂时不做-->
       <work-cover :src="metadata?.cover" :nsfw="true"
                   :release="metadata?.release"/>

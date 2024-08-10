@@ -121,7 +121,7 @@ fetchGroups()
 
   <q-page class="q-layout-padding">
     <div class="row justify-center items-center">
-      <div class="col-md-6">
+      <div class="col-md-8">
         <q-card>
           <q-card-section title>
             <div class="text-h6">添加漫画</div>

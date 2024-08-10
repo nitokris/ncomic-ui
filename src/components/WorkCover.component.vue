@@ -1,9 +1,12 @@
 <script setup lang="ts">
 
 import {useQuasar} from "quasar";
-import {computed, ref} from "vue";
+import {computed, defineComponent, ref} from "vue";
 import {api} from "boot/axios";
 
+defineComponent({
+  name: "WorkCover",
+})
 
 const prop = defineProps({
   nsfw: {
@@ -56,9 +59,9 @@ const coverUrl = computed(() => {
          :ratio="4/3"
   >
     <div class="absolute-top-left transparent" style="padding: 0;">
-<!--      <q-chip dense square color="brown" text-color="white" class="q-ma-sm">-->
-<!--        23333-->
-<!--      </q-chip>-->
+      <!--      <q-chip dense square color="brown" text-color="white" class="q-ma-sm">-->
+      <!--        23333-->
+      <!--      </q-chip>-->
       <!--      <template v-for="(item,index) in prop.otherSites" :key="index">-->
       <!--        <q-chip dense square color="brown" text-color="white" class="q-ma-sm">-->
       <!--          {{ item.name }}-->

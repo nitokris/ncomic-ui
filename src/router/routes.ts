@@ -13,6 +13,7 @@ const routes: RouteRecordRaw[] = [
       {path: 'addAuthor', props: {restrict: 'author'}, component: () => import('pages/AddLabel.vue')},
       {path: 'addTag', props: {restrict: 'tag'}, component: () => import('pages/AddLabel.vue')},
       {path: 'sukebi', component: () => import('pages/SukebeiSearch.page.vue')},
+      {path: 'work/:id', component: () => import('pages/WorkDetail.page.vue')},
     ]
   },
 

@@ -24,7 +24,7 @@ export class HttpClientAxios implements HttpClientInterface {
         ...headers
       }
     }
-    console.log(JSON.stringify(payload))
+    // 处理query参数，保证query参数的形式能够添加到axios链接中
     if (endpoint.indexOf('{') === -1 && HttpRequestType.get === requestType) {
       console.log(JSON.stringify(payload))
       options.params = payload

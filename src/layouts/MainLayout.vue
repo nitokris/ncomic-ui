@@ -21,7 +21,7 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container class="q-layout-padding" style="padding-top: 50px; padding-bottom: 0px;">
+    <q-page-container >
       <router-view/>
     </q-page-container>
   </q-layout>
