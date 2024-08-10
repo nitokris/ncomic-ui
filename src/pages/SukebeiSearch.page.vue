@@ -3,6 +3,7 @@ import {ref} from 'vue';
 import {api} from "boot/axios";
 import {copyToClipboard} from "quasar";
 import NotificationMixins from "src/mixins/NotificationMixins";
+import {Sukebei} from "src/models";
 
 defineOptions({
   name: 'SukebeiSearch',
@@ -11,10 +12,11 @@ defineOptions({
 const keyword = ref('');
 
 function searchHandle() {
+  selected.value = []
   tableRef.value.requestServerInteraction()
 }
 
-const rows = ref([]);
+const rows = ref<Array<Sukebei>>([]);
 
 const columns = [
   {
@@ -83,17 +85,17 @@ function onRequest(requestProp: any) {
   }
   loading.value = true
   const {page, rowsPerPage, sortBy, descending} = requestProp.pagination
-  // tableRef.value.requestServerInteraction();
   api.get(`sukebei/${keyword.value}/${requestProp.pagination.page}`)
     .then(resp => {
-      console.log(resp.data);
       initialPagination.value.rowsNumber = resp.data.total;
       rows.value.splice(0, rows.value.length, ...resp.data.manga)
+      for (let item of rows.value) {
+        item.title = item.title.replace(keyword.value, `<span style="color: red !important;">${keyword.value}</span>`);
+      }
       initialPagination.value.page = page
       initialPagination.value.sortBy = sortBy
       initialPagination.value.descending = descending
       initialPagination.value.rowsPerPage = 75
-
       NotificationMixins.showSuccNotif("搜索完成");
     }).catch(err => {
     NotificationMixins.showErrNotif(err.message);
@@ -144,8 +146,8 @@ function onRequest(requestProp: any) {
               <q-td style="width: 150px;">
                 <q-img :src="props.row.type"/>
               </q-td>
-              <q-td style="max-width: 300px;overflow: hidden">
-                <span :title="props.row.title">{{ props.row.title }}</span>
+              <q-td style="max-width: 300px;overflow: hidden" v-html="props.row.title">
+
               </q-td>
               <q-td>
                 <span>{{ props.row.fileSize }}</span>
