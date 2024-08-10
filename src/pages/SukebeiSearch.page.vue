@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {ref} from 'vue';
-import {api} from "boot/axios";
 import {copyToClipboard} from "quasar";
 import NotificationMixins from "src/mixins/NotificationMixins";
 import {Sukebei} from "src/models";
+import {apiClient} from "src/api-client";
 
 defineOptions({
   name: 'SukebeiSearch',
@@ -13,6 +13,7 @@ const keyword = ref('');
 
 function searchHandle() {
   selected.value = []
+  initialPagination.value.page = 1;
   tableRef.value.requestServerInteraction()
 }
 
@@ -85,10 +86,10 @@ function onRequest(requestProp: any) {
   }
   loading.value = true
   const {page, rowsPerPage, sortBy, descending} = requestProp.pagination
-  api.get(`sukebei/${keyword.value}/${requestProp.pagination.page}`)
+  apiClient.sukebi.search(keyword.value, page)
     .then(resp => {
-      initialPagination.value.rowsNumber = resp.data.total;
-      rows.value.splice(0, rows.value.length, ...resp.data.manga)
+      initialPagination.value.rowsNumber = resp.total;
+      rows.value.splice(0, rows.value.length, ...resp.manga)
       for (let item of rows.value) {
         item.title = item.title.replace(keyword.value, `<span style="color: red !important;">${keyword.value}</span>`);
       }

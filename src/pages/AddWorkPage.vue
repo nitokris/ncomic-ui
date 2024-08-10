@@ -4,8 +4,7 @@ import {computed, ref} from "vue";
 import {api} from "boot/axios";
 import NotificationMixins from "src/mixins/NotificationMixins";
 import {useQuasar} from "quasar";
-import {Author, Circle, OtherSite, Tag, Work} from "src/components/models";
-import {group} from "console";
+import {Author, Circle, Label} from "src/models";
 
 
 const prop = defineProps({
@@ -20,12 +19,13 @@ const work = ref<Work>({
   tags: [],
   circle: null,
   release: '',
-  cover: ''
+  cover: '',
+  comicFileName: ''
 });
 
 const authors = ref<Array<Author>>([])
 
-const tags = ref<Array<Tag>>([])
+const tags = ref<Array<Label>>([])
 
 const circles = ref<Array<Circle>>([])
 
@@ -39,6 +39,15 @@ function handleAfterUploadCover(info: any) {
   if (response) {
     const parse = JSON.parse(response);
     work.value.cover = parse.data;
+    console.log(work.value);
+  }
+}
+
+function handleAfterUploadComicFile(info: any) {
+  const response = info.xhr.response;
+  if (response) {
+    const parse = JSON.parse(response);
+    work.value.comicFileName = parse.data;
     console.log(work.value);
   }
 }
@@ -128,10 +137,14 @@ fetchGroups()
           </q-card-section>
           <q-card-section>
             <div class="flex">
-              <q-uploader label="Cover" auto-upload :url="`${apiUrl}/attachment`" method="POST"
-                          style="max-height: 560px" field-name="file" enctype="multipart/form-data"
-                          @uploaded="handleAfterUploadCover" :multiple="false" @fail="handleUploadError"/>
-
+              <div>
+                <q-uploader label="Cover" auto-upload :url="`${apiUrl}/attachment`" method="POST"
+                            style="max-height: 560px" field-name="file" enctype="multipart/form-data"
+                            @uploaded="handleAfterUploadCover" :multiple="false" @fail="handleUploadError"/>
+                <q-uploader label="ComicFile" auto-upload :url="`${apiUrl}/attachment`" method="POST" field-name="file"
+                            @uploaded="handleAfterUploadComicFile"
+                            enctype="multipart/form-data"/>
+              </div>
               <div style="flex: 1;padding-left: 10px;">
                 <q-form class="q-gutter-md" :url="`${apiUrl}/work`">
                   <q-input v-model="work.title" filled :label="$t('workTitle')" hint="comic title" lazy-rules
