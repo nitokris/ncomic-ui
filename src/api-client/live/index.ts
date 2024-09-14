@@ -10,7 +10,7 @@ const apiLiveClient: ApiClientInterface = {
   }),
   sukebi: new SukebeiApiClientModel({
     endpoints: {
-      search: '/sukebei/{keyword}/{page}'
+      search: '/hentai/magnet'
     }
   })
 }

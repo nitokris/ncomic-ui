@@ -19,7 +19,7 @@ export class SukebeiApiClientModel implements SukebeiApiClientInterface {
   search(keyword: string, page: number): Promise<SukebeiResp> {
     const param: HttpRequestParamsInterface<any> = {
       endpoint: this.endpoints.search,
-      requestType: HttpRequestType.get,
+      requestType: HttpRequestType.post,
       requiresToken: false,
       payload: {
         keyword: keyword,

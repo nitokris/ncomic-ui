@@ -1,6 +1,6 @@
 import {Sukebei} from "src/models";
 
 export interface SukebeiResp {
-  manga: Array<Sukebei>
+  data: Array<Sukebei>
   total: number
 }

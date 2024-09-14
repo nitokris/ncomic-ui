@@ -89,7 +89,7 @@ function onRequest(requestProp: any) {
   apiClient.sukebi.search(keyword.value, page)
     .then(resp => {
       initialPagination.value.rowsNumber = resp.total;
-      rows.value.splice(0, rows.value.length, ...resp.manga)
+      rows.value.splice(0, rows.value.length, ...resp.data)
       for (let item of rows.value) {
         item.title = item.title.replace(keyword.value, `<span style="color: red !important;">${keyword.value}</span>`);
       }
