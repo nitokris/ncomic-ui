@@ -1,6 +1,6 @@
 import {WorksApiClientInterface} from "src/api-client/models/work/WorksApiClient.interface";
 import {WorkApiClientEndpoints, WorkApiClientOptions} from "src/api-client/models/work/WorkApiClientOptions.interface";
-import {Work} from "src/models";
+import {HentaiParam, Work} from "src/models";
 import {HttpRequestParamsInterface} from "src/http-client/models/HttpRequestParams.interface";
 import {useHttpClient} from "src/http-client";
 import {HttpRequestType} from "src/http-client/models/Constants";
@@ -34,4 +34,16 @@ export class WorksApiClientModel implements WorksApiClientInterface {
     }
     return useHttpClient().request<Work, any>(param)
   }
+
+  fetchHentaiInfo(param: HentaiParam): Promise<Work> {
+    const reqParam: HttpRequestParamsInterface<any> = {
+      endpoint: this.endpoints.hentai,
+      requestType: HttpRequestType.post,
+      requiresToken: false,
+      payload: param
+    }
+    return useHttpClient().request<Work, HentaiParam>(reqParam);
+  }
+
+
 }

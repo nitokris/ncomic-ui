@@ -1,6 +1,7 @@
 export interface WorkApiClientEndpoints {
   fetchWorks: string
-  fetchWork: string
+  fetchWork: string,
+  hentai: string
 }
 
 export interface WorkApiClientOptions {

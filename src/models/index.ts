@@ -1,5 +1,6 @@
 export * from './author'
 export * from './circle'
+export * from './hentai'
 export * from './label'
 export * from './work'
 export * from './sukebei'

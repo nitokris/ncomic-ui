@@ -5,12 +5,13 @@ const apiLiveClient: ApiClientInterface = {
   works: new WorksApiClientModel({
     endpoints: {
       fetchWorks: '/work/list',
-      fetchWork: '/work/{id}'
+      fetchWork: '/work/{id}',
+      hentai: '/hentai'
     }
   }),
   sukebi: new SukebeiApiClientModel({
     endpoints: {
-      search: '/hentai/magnet'
+      search: '/hentai/magnet',
     }
   })
 }
