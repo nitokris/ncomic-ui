@@ -3,6 +3,7 @@ import WorkCover from "components/WorkCover.component.vue";
 import {api} from "boot/axios";
 import {computed, ref} from "vue";
 import NotificationMixins from "src/mixins/NotificationMixins";
+import FileSelect from "components/File.component.vue";
 
 defineOptions({
   name: 'RecentPage',
@@ -41,6 +42,7 @@ const apiUrl = computed(() => {
             <div class="text-h6">最新入库</div>
           </q-card-section>
           <q-card-section>
+            <FileSelect></FileSelect>
             <div class="row q-col-gutter-x-md q-col-gutter-y-lg">
               <template v-for="(item,index) in recentWorks" :key="index">
                 <div class="col-xs-12 col-sm-6 col-md-4">
@@ -65,6 +67,8 @@ const apiUrl = computed(() => {
       </div>
     </div>
   </q-page>
+
+
 
 
 </template>
